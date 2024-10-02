@@ -24,7 +24,7 @@ import Attributions from "./components/attributions";
 import LayerManagerWrapper from "./components/layer-manager";
 // import { pulsingDot } from "./mapImages";
 
-import mapStyleForNoStyle from "./defautlStyle";
+import mapStyleForNoStyle from "./style";
 
 // Styles
 import "./styles.scss";
