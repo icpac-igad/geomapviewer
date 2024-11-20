@@ -578,46 +578,46 @@ class MapComponent extends Component {
 
     const LABELS_GROUP = ["labels"];
 
-    if (map && map.getStyle()) {
-      const { layers, metadata } = map.getStyle();
+    // if (map && map.getStyle()) {
+    //   const { layers, metadata } = map.getStyle();
 
-      const labelGroups = Object.keys(metadata["mapbox:groups"]).filter((k) => {
-        const { name } = metadata["mapbox:groups"][k];
+    //   const labelGroups = Object.keys(metadata["mapbox:groups"]).filter((k) => {
+    //     const { name } = metadata["mapbox:groups"][k];
 
-        const matchedGroups = LABELS_GROUP.filter((rgr) =>
-          name.toLowerCase().includes(rgr)
-        );
+    //     const matchedGroups = LABELS_GROUP.filter((rgr) =>
+    //       name.toLowerCase().includes(rgr)
+    //     );
 
-        return matchedGroups.some((bool) => bool);
-      });
+    //     return matchedGroups.some((bool) => bool);
+    //   });
 
-      const labelsWithMeta = labelGroups.map((_groupId) => ({
-        ...metadata["mapbox:groups"][_groupId],
-        id: _groupId,
-      }));
-      const labelsToDisplay =
-        labelsWithMeta.find((_basemap) =>
-          _basemap.name.includes(basemap?.labelsGroup)
-        ) || {};
+    //   const labelsWithMeta = labelGroups.map((_groupId) => ({
+    //     ...metadata["mapbox:groups"][_groupId],
+    //     id: _groupId,
+    //   }));
+    //   const labelsToDisplay =
+    //     labelsWithMeta.find((_basemap) =>
+    //       _basemap.name.includes(basemap?.labelsGroup)
+    //     ) || {};
 
-      const labelLayers = layers.filter((l) => {
-        const { metadata: layerMetadata } = l;
-        if (!layerMetadata) return false;
+    //   const labelLayers = layers.filter((l) => {
+    //     const { metadata: layerMetadata } = l;
+    //     if (!layerMetadata) return false;
 
-        const gr = layerMetadata["mapbox:group"];
-        return labelGroups.includes(gr);
-      });
+    //     const gr = layerMetadata["mapbox:group"];
+    //     return labelGroups.includes(gr);
+    //   });
 
-      labelLayers.forEach((_layer) => {
-        const match = _layer.metadata["mapbox:group"] === labelsToDisplay.id;
-        map.setLayoutProperty(
-          _layer.id,
-          "visibility",
-          match && mapLabels ? "visible" : "none"
-        );
-        map.setLayoutProperty(_layer.id, "text-field", ["get", `name_${lang}`]);
-      });
-    }
+    //   labelLayers.forEach((_layer) => {
+    //     const match = _layer.metadata["mapbox:group"] === labelsToDisplay.id;
+    //     map.setLayoutProperty(
+    //       _layer.id,
+    //       "visibility",
+    //       match && mapLabels ? "visible" : "none"
+    //     );
+    //     map.setLayoutProperty(_layer.id, "text-field", ["get", `name_${lang}`]);
+    //   });
+    // }
 
     return true;
   };
