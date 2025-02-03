@@ -112,7 +112,7 @@ class FeatureInfo extends PureComponent {
     }
 
     if (isNumber(value)) {
-      fValue = value.toFixed(2);
+      fValue = value.toFixed();
     }
 
     return `${fValue} ${unit}`;
