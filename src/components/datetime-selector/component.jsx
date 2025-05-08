@@ -22,7 +22,12 @@ class DateTimeSelectorSection extends Component {
   };
 
   changeDateTime = (time) => {
-    this.props.onChange(time.toISOString());
+    // selected date manually formatted to YYYY-MM-DD for convenience
+    // TODO: Use date format from CMS
+    const year = time.getFullYear();
+    const month = time.getMonth() + 1 < 10 ? `0${time.getMonth() + 1}` : time.getMonth() + 1; // Months are zero-indexed
+    const day = time.getDate() < 10 ? `0${time.getDate()}`: `${time.getDate()}`
+    this.props.onChange(`${year}-${month}-${day}`);
   };
 
   onPreviousButtonClicked = () => {
@@ -140,27 +145,27 @@ class DateTimeSelectorSection extends Component {
               className="datetimePrevious"
               disabled={this.isPreviousTimeAvaliable()}
               onClick={this.onPreviousButtonClicked}
-              title="Previous Time"
+              title="Previous Data Date"
             >
               <Icon icon={prevIcon} />
             </button>
             <button
               className="currentDate"
               onClick={this.toggleOpen}
-              title="Select a time"
+              title="Select Data Date"
             >
-              {defined(discreteTime) ? discreteTime : "Time out of range"}
+              {defined(discreteTime) ? discreteTime : "Date out of range"}
             </button>
             <button
               className="datetimeNext"
               disabled={this.isNextTimeAvaliable()}
               onClick={this.onNextButtonClicked}
-              title="Next Time"
+              title="Next Data Date"
             >
               <Icon icon={nextIcon} />
             </button>
           </div>
-          <div title="Select a Time">
+          <div title="Select Data Date">
             <DateTimePicker
               currentDate={new Date(selectedTime)}
               dates={dates}

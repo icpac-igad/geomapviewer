@@ -3,7 +3,7 @@ import bbox from "@turf/bbox";
 import { isEmpty } from "lodash";
 import { connect } from "react-redux";
 import { wrap } from "comlink";
-
+import { apiRequest } from "@/utils/request";
 import * as ownActions from "./actions";
 import { getDatasetProps } from "./selectors";
 import { setMapSettings } from "@/components/map/actions";
@@ -45,6 +45,7 @@ class LayerUpdate extends PureComponent {
 
     const {
       id: layerId,
+      dataset: datasetId,
       getCapabilitiesUrl,
       layerName,
       autoUpdateInterval,
@@ -60,6 +61,12 @@ class LayerUpdate extends PureComponent {
       );
     }
   };
+
+  getWMSTilesetTimestamps = async () => {
+    const { layer } = this.props;
+
+    return await apiRequest.get(`/wms-tileset/${layer.dataset}`).then((res) => res?.data?.timestamps);
+  }
 
   doUpdate = async ({ isInitial }) => {
     const {
@@ -91,7 +98,7 @@ class LayerUpdate extends PureComponent {
     }
 
     if (!getTimestamps && layerType === "wms") {
-      getLayerTimestamps = this.getWMSTimestamps;
+      getLayerTimestamps = this.getWMSTilesetTimestamps;
     }
 
     // update timestamps
@@ -152,6 +159,8 @@ class LayerUpdate extends PureComponent {
           }
         })
         .catch((err) => {
+          console.log(`could not update timestamps for ${layer.name}  layer ${layerId} with error ${err}`)
+
           setTimestamps({ [layerId]: [] });
 
           setLayerUpdatingStatus({ [layerId]: false });

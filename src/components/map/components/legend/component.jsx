@@ -7,7 +7,7 @@ import Legend, {
   LegendItemToolbar,
   LegendItemButtonOpacity,
   LegendItemButtonInfo,
-  LegendItemButtonRemove,
+  LegendItemButtonRemove
 } from "@/components/legend";
 
 import LegendItemTypes from "./components/legend-item-types";
@@ -65,7 +65,7 @@ const MapLegendContent = ({
     filteredLayerGroups =
       filteredLayerGroups &&
       filteredLayerGroups.length &&
-      filteredLayerGroups.filter((l) => l.mapSide === mapSide);
+      filteredLayerGroups.filter(l => l.mapSide === mapSide);
   }
 
   const noLayers = !filteredLayerGroups || !filteredLayerGroups.length;
@@ -95,10 +95,11 @@ const MapLegendContent = ({
           name,
           dataset,
           summary,
-          capabilities,
-        } = lg || {};
+          capabilities
+        } =
+          lg || {};
 
-        const activeLayer = layers && layers.find((l) => l.active);
+        const activeLayer = layers && layers.find(l => l.active);
 
         const {
           params,
@@ -108,12 +109,13 @@ const MapLegendContent = ({
           statement,
           disclaimer,
           layerFilterParams,
-          layerFilterParamsConfig,
-        } = activeLayer || {};
+          layerFilterParamsConfig
+        } =
+          activeLayer || {};
 
         const isUpdating =
           activeLayer &&
-          activeLayers.find((l) => l.id === activeLayer.id && l.isUpdating);
+          activeLayers.find(l => l.id === activeLayer.id && l.isUpdating);
 
         const moveTo =
           activeCompareSide &&
@@ -129,16 +131,16 @@ const MapLegendContent = ({
               <LegendItemToolbar
                 {...rest}
                 enabledStyle={{
-                  fill: color,
+                  fill: color
                 }}
                 defaultStyle={{
-                  fill: "#999",
+                  fill: "#999"
                 }}
                 disabledStyle={{
-                  fill: "#d6d6d9",
+                  fill: "#d6d6d9"
                 }}
                 focusStyle={{
-                  fill: "#676867",
+                  fill: "#676867"
                 }}
                 onChangeInfo={() => onChangeInfo(metadata)}
               >
@@ -148,7 +150,7 @@ const MapLegendContent = ({
                     backgroundColor: "#fff",
                     borderRadius: "4px",
                     border: 0,
-                    boxShadow: "rgba(0, 0, 0, 0.29) 0px 1px 2px 0px",
+                    boxShadow: "rgba(0, 0, 0, 0.29) 0px 1px 2px 0px"
                   }}
                 />
                 {metadata && <LegendItemButtonInfo />}
@@ -156,7 +158,7 @@ const MapLegendContent = ({
               </LegendItemToolbar>
             }
           >
-            {comparing && (
+            {comparing &&
               <div className="compare-move-controls">
                 <div
                   className="action"
@@ -169,47 +171,51 @@ const MapLegendContent = ({
                         : moveLeftIcon
                     }
                   />
-                  <div> Move {moveTo}</div>
+                  <div>
+                    {" "}Move {moveTo}
+                  </div>
                 </div>
-              </div>
-            )}
+              </div>}
 
-            {summary && <div>{summary}</div>}
-            {disclaimer && <div className="disclaimer">{disclaimer}</div>}
-            {isUpdating && (
+            {summary &&
+              <div>
+                {summary}
+              </div>}
+            {disclaimer &&
+              <div className="disclaimer">
+                {disclaimer}
+              </div>}
+            {isUpdating &&
               <div className="updating-indicator">
                 <Icon icon={updateIcon} />
                 <div>Updating ...</div>
-              </div>
-            )}
+              </div>}
             <LayerCapabilities capabilities={capabilities} />
             {!isMultiLayer && <LegendItemTypes />}
             {statement && <LayerAnalysisStatement statementHtml={statement} />}
-            {statementConfig && (
+            {statementConfig &&
               <LayerStatement
                 className="layer-statement"
                 {...statementConfig}
-              />
-            )}
+              />}
 
-            {isMultiLayer && (
+            {isMultiLayer &&
               <LayerSelectMenu
                 className="sub-layer-menu"
                 layers={lg.layers}
                 onSelectLayer={onSelectLayer}
                 onInfoClick={onChangeInfo}
-              />
-            )}
+              />}
 
             <div
               className={cx("param-selectors", {
-                "-column": paramsSelectorColumnView,
+                "-column": paramsSelectorColumnView
               })}
             >
               {activeLayer &&
                 paramsSelectorConfig &&
                 params &&
-                paramsSelectorConfig.map((paramConfig) => {
+                paramsSelectorConfig.map(paramConfig => {
                   // hidden
                   if (paramConfig.hidden) {
                     return null;
@@ -236,16 +242,16 @@ const MapLegendContent = ({
                         selectedTime={
                           params[paramConfig.key] || paramConfig.default
                         }
-                        onChange={(value) => {
+                        onChange={value => {
                           onChangeParam(activeLayer, {
-                            [paramConfig.key]: value,
+                            [paramConfig.key]: value
                           });
                         }}
                         autoUpdate={Boolean(autoUpdateInterval)}
                         autoUpdateActive={autoUpdateActive}
                         onToggleAutoUpdate={() => {
                           onChangeLayerSetting(activeLayer, {
-                            autoUpdateActive: !autoUpdateActive,
+                            autoUpdateActive: !autoUpdateActive
                           });
                         }}
                       />
@@ -261,14 +267,14 @@ const MapLegendContent = ({
                         {...paramConfig}
                         value={params[paramConfig.key] || paramConfig.default}
                         columnView={paramsSelectorColumnView}
-                        onChange={(value) => {
+                        onChange={value => {
                           const selectedOption = paramConfig.options.find(
-                            (o) => o.value === value
+                            o => o.value === value
                           );
                           onChangeParam(
                             activeLayer,
                             {
-                              [paramConfig.key]: value,
+                              [paramConfig.key]: value
                             },
                             selectedOption
                           );
@@ -281,24 +287,23 @@ const MapLegendContent = ({
                 })}
             </div>
 
-            {activeLayer && (
+            {activeLayer &&
               <div className="settings-toggle">
                 <LayerSettings
                   layer={activeLayer}
                   location={location}
                   onToggleSetting={(setting, isActive) => {
                     onChangeLayerSetting(activeLayer, {
-                      [setting]: isActive,
+                      [setting]: isActive
                     });
                   }}
                 />
-              </div>
-            )}
+              </div>}
 
             {activeLayer &&
               layerFilterParams &&
               layerFilterParamsConfig &&
-              layerFilterParamsConfig.map((filterParam) => {
+              layerFilterParamsConfig.map(filterParam => {
                 if (filterParam.options) {
                   return (
                     <LayerFilterSelector
@@ -311,11 +316,10 @@ const MapLegendContent = ({
                         layerFilterParams[filterParam.key] ||
                         filterParam.default
                       }
-                      onChange={(e) =>
+                      onChange={e =>
                         onChangeFilterParam(activeLayer, {
-                          [filterParam.key]: e,
-                        })
-                      }
+                          [filterParam.key]: e
+                        })}
                     />
                   );
                 }
@@ -324,40 +328,36 @@ const MapLegendContent = ({
               })}
 
             {(isSelectorLayer || isMultiSelectorLayer) &&
-              selectorLayerConfig && (
-                <LayerSelectorMenu
-                  className="layer-selector"
-                  layerGroup={lg}
-                  name={name}
-                  multi={isMultiSelectorLayer}
-                  onChange={onChangeLayer}
-                  {...selectorLayerConfig}
-                />
-              )}
+              selectorLayerConfig &&
+              <LayerSelectorMenu
+                className="layer-selector"
+                layerGroup={lg}
+                name={name}
+                multi={isMultiSelectorLayer}
+                onChange={onChangeLayer}
+                {...selectorLayerConfig}
+              />}
 
-            {isMultiLayer && (
+            {isMultiLayer &&
               <LayerListMenu
                 className="sub-layer-menu"
                 layers={lg.layers}
                 onToggle={onToggleLayer}
                 onInfoClick={onChangeInfo}
-              />
-            )}
-            {statementConfig && (
+              />}
+            {statementConfig &&
               <LayerStatement
                 className="layer-statement"
                 {...statementConfig}
-              />
-            )}
-            {caution && (
+              />}
+            {caution &&
               <WidgetCaution
                 locationType="map"
                 caution={{
                   text: caution,
-                  visible: ["country", "aoi", "geostore", "dashboard", "map"],
+                  visible: ["country", "aoi", "geostore", "dashboard", "map"]
                 }}
-              />
-            )}
+              />}
             {moreInfo && <LayerMoreInfo className="more-info" {...moreInfo} />}
           </LegendListItem>
         );
@@ -370,11 +370,11 @@ class MapLegendCompare extends Component {
   getLinks = () => {
     const { compareLinks, setMapSettings } = this.props;
 
-    return compareLinks.map((l) => ({
+    return compareLinks.map(l => ({
       ...l,
       onClick: () => {
         setMapSettings({ activeCompareSide: l.mapSide });
-      },
+      }
     }));
   };
   render() {
@@ -388,22 +388,20 @@ class MapLegendCompare extends Component {
           links={this.getLinks()}
           checkActive
         />
-        {activeCompareSide === "left" && (
+        {activeCompareSide === "left" &&
           <MapLegendContent
             {...this.props}
             comparing
             mapSide="left"
             layerGroups={layerGroups}
-          />
-        )}
-        {activeCompareSide === "right" && (
+          />}
+        {activeCompareSide === "right" &&
           <MapLegendContent
             {...this.props}
             comparing
             mapSide="right"
             layerGroups={layerGroups}
-          />
-        )}
+          />}
       </div>
     );
   }
@@ -416,9 +414,9 @@ const MapLegend = ({ layerGroups, loading, className, comparing, ...rest }) => {
 
       {comparing && <MapLegendCompare layerGroups={layerGroups} {...rest} />}
 
-      {!comparing && !loading && (
-        <MapLegendContent layerGroups={layerGroups} {...rest} />
-      )}
+      {!comparing &&
+        !loading &&
+        <MapLegendContent layerGroups={layerGroups} {...rest} />}
     </div>
   );
 };
@@ -426,7 +424,7 @@ const MapLegend = ({ layerGroups, loading, className, comparing, ...rest }) => {
 MapLegend.defaultProps = {
   maxHeight: 300,
   LegendItemToolbar: <LegendItemToolbar />,
-  LegendItemTypes: <LegendItemTypes />,
+  LegendItemTypes: <LegendItemTypes />
 };
 
 MapLegend.propTypes = {
@@ -443,7 +441,7 @@ MapLegend.propTypes = {
   onChangeLayer: PropTypes.func,
   onChangeInfo: PropTypes.func,
   layers: PropTypes.array,
-  location: PropTypes.object,
+  location: PropTypes.object
 };
 
 export default MapLegend;

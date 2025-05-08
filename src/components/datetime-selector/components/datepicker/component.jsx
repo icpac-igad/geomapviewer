@@ -33,7 +33,7 @@ const monthNames = [
   "Sep",
   "Oct",
   "Nov",
-  "Dec",
+  "Dec"
 ];
 
 class DateTimePicker extends Component {
@@ -44,7 +44,7 @@ class DateTimePicker extends Component {
     day: null,
     time: null,
     hour: null,
-    granularity: null,
+    granularity: null
   };
 
   componentDidMount() {
@@ -92,7 +92,7 @@ class DateTimePicker extends Component {
       month: defaultMonth,
       day: defaultDay,
       time: defaultTime,
-      granularity: defaultGranularity,
+      granularity: defaultGranularity
     });
 
     window.addEventListener("click", this.closePicker);
@@ -102,10 +102,10 @@ class DateTimePicker extends Component {
     window.removeEventListener("click", this.closePicker);
   }
 
-  closePicker = (newTime) => {
+  closePicker = newTime => {
     if (newTime !== undefined) {
       this.setState({
-        time: newTime,
+        time: newTime
       });
     }
 
@@ -114,13 +114,13 @@ class DateTimePicker extends Component {
     }
   };
 
-  renderCenturyGrid = (datesObject) => {
+  renderCenturyGrid = datesObject => {
     const centuries = datesObject.indice;
     if (datesObject.dates && datesObject.dates.length >= 12) {
       return (
         <div className="grid">
           <div className="gridHeading">Select a century</div>
-          {centuries.map((c) => (
+          {centuries.map(c =>
             <button
               key={c}
               className="centuryBtn"
@@ -128,7 +128,7 @@ class DateTimePicker extends Component {
             >
               {c}00
             </button>
-          ))}
+          )}
         </div>
       );
     } else {
@@ -147,25 +147,31 @@ class DateTimePicker extends Component {
         <div className="grid">
           <div className="gridHeading">Select a year</div>
           <div className="gridBody">
-            {years.map((y) => (
+            {years.map(y =>
               <div
                 className="gridRow"
                 key={y}
                 onClick={() =>
-                  this.setState({ year: y, month: null, day: null, time: null })
-                }
+                  this.setState({
+                    year: y,
+                    month: null,
+                    day: null,
+                    time: null
+                  })}
               >
-                <span className="gridLabel">{y}</span>
+                <span className="gridLabel">
+                  {y}
+                </span>
                 <span className="gridRowInner12">
-                  {monthOfYear.map((m) => (
+                  {monthOfYear.map(m =>
                     <span
                       className={datesObject[y][m] ? "activeGrid" : ""}
                       key={m}
                     />
-                  ))}
+                  )}
                 </span>
               </div>
-            ))}
+            )}
           </div>
         </div>
       );
@@ -174,7 +180,7 @@ class DateTimePicker extends Component {
     }
   }
 
-  renderMonthGrid = (datesObject) => {
+  renderMonthGrid = datesObject => {
     const year = this.state.year;
     if (datesObject[year].dates && datesObject[year].dates.length > 12) {
       return (
@@ -187,7 +193,7 @@ class DateTimePicker extends Component {
                   year: null,
                   month: null,
                   day: null,
-                  time: null,
+                  time: null
                 });
               }}
             >
@@ -195,20 +201,21 @@ class DateTimePicker extends Component {
             </button>
           </div>
           <div className="gridBody">
-            {monthNames.map((m, i) => (
+            {monthNames.map((m, i) =>
               <div
                 className={classNames("gridRow", {
-                  inactiveGridRow: !defined(datesObject[year][i]),
+                  inactiveGridRow: !defined(datesObject[year][i])
                 })}
                 key={m}
                 onClick={() =>
                   defined(datesObject[year][i]) &&
-                  this.setState({ month: i, day: null, time: null })
-                }
+                  this.setState({ month: i, day: null, time: null })}
               >
-                <span className="gridLabel">{m}</span>
+                <span className="gridLabel">
+                  {m}
+                </span>
                 <span className="gridRowInner31">
-                  {daysInMonth(i + 1, year).map((d) => (
+                  {daysInMonth(i + 1, year).map(d =>
                     <span
                       className={
                         defined(datesObject[year][i]) &&
@@ -218,10 +225,10 @@ class DateTimePicker extends Component {
                       }
                       key={d}
                     />
-                  ))}
+                  )}
                 </span>
               </div>
-            ))}
+            )}
           </div>
         </div>
       );
@@ -230,7 +237,7 @@ class DateTimePicker extends Component {
     }
   };
 
-  renderDayView = (datesObject) => {
+  renderDayView = datesObject => {
     if (
       datesObject[this.state.year][this.state.month].dates &&
       datesObject[this.state.year][this.state.month].dates.length > 31
@@ -250,7 +257,7 @@ class DateTimePicker extends Component {
                   year: null,
                   month: null,
                   day: null,
-                  time: null,
+                  time: null
                 });
               }}
             >
@@ -267,7 +274,7 @@ class DateTimePicker extends Component {
           </div>
           <DatePicker
             inline
-            onChange={(date) => {
+            onChange={date => {
               this.setState({ day: date.getDate() });
             }}
             includeDates={datesObject.dates}
@@ -282,13 +289,13 @@ class DateTimePicker extends Component {
     }
   };
 
-  renderList = (items) => {
+  renderList = items => {
     if (defined(items)) {
       return (
         <div className="grid">
-          <div className="gridHeading">Select a time</div>
+          <div className="gridHeading">Select data date</div>
           <div className="gridBody">
-            {items.map((item) => (
+            {items.map(item =>
               <button
                 key={formatDateTime(item)}
                 className="dateBtn"
@@ -305,33 +312,32 @@ class DateTimePicker extends Component {
                     )
                   : formatDateTime(item)}
               </button>
-            ))}
+            )}
           </div>
         </div>
       );
     }
   };
 
-  renderHourView = (datesObject) => {
+  renderHourView = datesObject => {
     const timeOptions = datesObject[this.state.year][this.state.month][
       this.state.day
-    ].dates.map((m) => ({
+    ].dates.map(m => ({
       value: m,
-      label: formatDateTime(m),
+      label: formatDateTime(m)
     }));
-
     if (timeOptions.length > 24) {
       return (
         <div className="grid">
           <div className="gridHeading">
-            {`Select an hour on ${this.state.day} ${
-              monthNames[this.state.month + 1]
-            } ${this.state.year}`}{" "}
+            {`Select an hour on ${this.state.day} ${monthNames[
+              this.state.month + 1
+            ]} ${this.state.year}`}{" "}
           </div>
           <div className="gridBody">
             {datesObject[this.state.year][this.state.month][
               this.state.day
-            ].indice.map((item) => (
+            ].indice.map(item =>
               <button
                 key={item}
                 className="dateBtn"
@@ -350,7 +356,7 @@ class DateTimePicker extends Component {
                   options)
                 </span>
               </button>
-            ))}
+            )}
           </div>
         </div>
       );
@@ -361,7 +367,7 @@ class DateTimePicker extends Component {
     }
   };
 
-  renderMinutesView = (datesObject) => {
+  renderMinutesView = datesObject => {
     const options =
       datesObject[this.state.year][this.state.month][this.state.day][
         this.state.hour
@@ -375,44 +381,44 @@ class DateTimePicker extends Component {
         this.setState({
           year: null,
           month: null,
-          day: null,
+          day: null
         });
       }
 
       if (!defined(this.state.hour)) {
         this.setState({
-          day: null,
+          day: null
         });
       }
 
       if (!defined(this.state.day)) {
         this.setState({
           month: null,
-          day: null,
+          day: null
         });
       }
 
       this.setState({
         hour: null,
-        time: null,
+        time: null
       });
     } else if (defined(this.state.hour)) {
       this.setState({
         hour: null,
-        time: null,
+        time: null
       });
     } else if (defined(this.state.day)) {
       this.setState({
         day: null,
         time: null,
-        hour: null,
+        hour: null
       });
     } else if (defined(this.state.month)) {
       this.setState({
         month: null,
         time: null,
         day: null,
-        hour: null,
+        hour: null
       });
     } else if (defined(this.state.year)) {
       this.setState({
@@ -420,7 +426,7 @@ class DateTimePicker extends Component {
         month: null,
         time: null,
         day: null,
-        hour: null,
+        hour: null
       });
     } else if (defined(this.state.century)) {
       this.setState({
@@ -429,7 +435,7 @@ class DateTimePicker extends Component {
         month: null,
         time: null,
         day: null,
-        hour: null,
+        hour: null
       });
     }
   };
@@ -447,7 +453,7 @@ class DateTimePicker extends Component {
           century: defined(this.state.century)
             ? Math.floor(currentDate.getFullYear() / 100)
             : null,
-          time: defined(this.state.time) ? currentDate : null,
+          time: defined(this.state.time) ? currentDate : null
         };
         this.setState(newState);
       }
@@ -470,11 +476,11 @@ class DateTimePicker extends Component {
         >
           <div
             className="timelineDatePicker"
-            onClick={(event) => {
+            onClick={event => {
               event.stopPropagation();
             }}
           >
-            {this.props.showCalendarButton && (
+            {this.props.showCalendarButton &&
               <button
                 className="togglebutton"
                 onClick={() => {
@@ -482,12 +488,11 @@ class DateTimePicker extends Component {
                 }}
               >
                 <Icon icon={backIcon} />
-              </button>
-            )}
-            {this.props.isOpen && (
+              </button>}
+            {this.props.isOpen &&
               <div
                 className={classNames("datePicker", this.props.popupStyle, {
-                  openBelow: this.props.openDirection === "down",
+                  openBelow: this.props.openDirection === "down"
                 })}
               >
                 <button
@@ -520,8 +525,7 @@ class DateTimePicker extends Component {
                   defined(this.state.day) &&
                   defined(this.state.hour) &&
                   this.renderMinutesView(datesObject[this.state.century])}
-              </div>
-            )}
+              </div>}
           </div>
         </RelativePortal>
       );
@@ -533,39 +537,39 @@ class DateTimePicker extends Component {
 
 function getOneYear(year, dates) {
   // All data from a given year.
-  return dates.filter((d) => d.getFullYear() === year);
+  return dates.filter(d => d.getFullYear() === year);
 }
 
 function getOneMonth(yearData, monthIndex) {
   // All data from certain month of that year.
-  return yearData.filter((y) => y.getMonth() === monthIndex);
+  return yearData.filter(y => y.getMonth() === monthIndex);
 }
 
 function getOneDay(monthData, dayIndex) {
-  return monthData.filter((m) => m.getDate() === dayIndex);
+  return monthData.filter(m => m.getDate() === dayIndex);
 }
 
 function getMonthForYear(yearData) {
   // get available months for a given year
-  return uniq(yearData.map((d) => d.getMonth()));
+  return uniq(yearData.map(d => d.getMonth()));
 }
 
 function getDaysForMonth(monthData) {
   // Get all available days given a month in a year.
-  return uniq(monthData.map((m) => m.getDate()));
+  return uniq(monthData.map(m => m.getDate()));
 }
 
 function getOneHour(dayData, hourIndex) {
   // All data from certain month of that year.
-  return dayData.filter((y) => y.getHours() === hourIndex);
+  return dayData.filter(y => y.getHours() === hourIndex);
 }
 
 function getHoursForDay(dayData) {
-  return uniq(dayData.map((m) => m.getHours()));
+  return uniq(dayData.map(m => m.getHours()));
 }
 
 function getOneCentury(century, dates) {
-  return dates.filter((d) => Math.floor(d.getFullYear() / 100) === century);
+  return dates.filter(d => Math.floor(d.getFullYear() / 100) === century);
 }
 
 /**
@@ -575,8 +579,8 @@ function getOneCentury(century, dates) {
  *   whose values are objects whose keys are days, whose values are arrays of all the datetimes on that day.
  */
 function objectifyDates(dates) {
-  const years = uniq(dates.map((date) => date.getFullYear()));
-  const centuries = uniq(years.map((year) => Math.floor(year / 100)));
+  const years = uniq(dates.map(date => date.getFullYear()));
+  const centuries = uniq(years.map(year => Math.floor(year / 100)));
   const result = centuries.reduce(
     (accumulator, currentValue) =>
       merge(accumulator, objectifyCenturyData(currentValue, dates, years)),
@@ -590,7 +594,7 @@ function objectifyDates(dates) {
 function objectifyCenturyData(century, dates, years) {
   // century is a number like 18, 19 or 20.
   const yearsInThisCentury = years.filter(
-    (year) => Math.floor(year / 100) === century
+    year => Math.floor(year / 100) === century
   );
   const centuryData = getOneCentury(century, dates);
   const centuryDates = {
@@ -598,7 +602,7 @@ function objectifyCenturyData(century, dates, years) {
       (accumulator, currentValue) =>
         merge(accumulator, objectifyYearData(currentValue, dates, years)),
       {}
-    ),
+    )
   };
   centuryDates[century].dates = centuryData;
   centuryDates[century].indice = yearsInThisCentury;
@@ -608,16 +612,16 @@ function objectifyCenturyData(century, dates, years) {
 function objectifyYearData(year, dates) {
   const yearData = getOneYear(year, dates);
   const monthInYear = {};
-  getMonthForYear(yearData).forEach((monthIndex) => {
+  getMonthForYear(yearData).forEach(monthIndex => {
     const monthData = getOneMonth(yearData, monthIndex);
     const daysInMonth = {};
 
-    getDaysForMonth(monthData).forEach((dayIndex) => {
+    getDaysForMonth(monthData).forEach(dayIndex => {
       daysInMonth.dates = monthData;
       daysInMonth.indice = getDaysForMonth(monthData);
       const hoursInDay = {};
       const dayData = getOneDay(monthData, dayIndex);
-      getHoursForDay(dayData).forEach((hourIndex) => {
+      getHoursForDay(dayData).forEach(hourIndex => {
         hoursInDay[hourIndex] = getOneHour(dayData, hourIndex);
         hoursInDay.dates = dayData;
         hoursInDay.indice = getHoursForDay(dayData);
@@ -640,7 +644,7 @@ DateTimePicker.defaultProps = {
   onChange: () => ({}),
   isOpen: true,
   onOpen: () => ({}),
-  onClose: () => ({}),
+  onClose: () => ({})
 };
 
 DateTimePicker.propTypes = {
@@ -653,7 +657,7 @@ DateTimePicker.propTypes = {
   onClose: PropTypes.func.isRequired,
   showCalendarButton: PropTypes.bool,
   dateFormat: PropTypes.object,
-  popupStyle: PropTypes.string,
+  popupStyle: PropTypes.string
 };
 
 export default DateTimePicker;
