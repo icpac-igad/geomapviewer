@@ -10,28 +10,25 @@ import { getActiveSection } from "@/components/map-menu/selectors";
 import { getComparing } from "@/components/map/selectors";
 
 import layersIcon from "@/assets/icons/layers.svg?sprite";
-import analysisIcon from "@/assets/icons/analysis.svg?sprite";
+// import analysisIcon from "@/assets/icons/analysis.svg?sprite";
 
 const selectLocationPayload = (state) =>
   state.location && state.location.payload;
 
-export const getMenuLinks = createSelector(
-  [getShowAnalysis],
-  (showAnalysis) => [
-    {
-      label: "LEGEND",
-      icon: layersIcon,
-      active: !showAnalysis,
-      showAnalysis: false,
-    },
-    {
-      label: "ANALYSIS",
-      icon: analysisIcon,
-      active: showAnalysis,
-      showAnalysis: true,
-    },
-  ]
-);
+export const getMenuLinks = createSelector([getShowAnalysis], () => [
+  {
+    label: "LEGEND",
+    icon: layersIcon,
+    active: true,
+    showAnalysis: false,
+  },
+  // {
+  //   label: "ANALYSIS",
+  //   icon: analysisIcon,
+  //   active: showAnalysis,
+  //   showAnalysis: true,
+  // },
+]);
 
 export const getFilteredMenuLinks = createSelector(
   [getMenuLinks, getEmbed],
